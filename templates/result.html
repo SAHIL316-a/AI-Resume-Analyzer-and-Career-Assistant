@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card center">
+  <h1>Your resume score</h1>
+  <div class="big-score">{{ r.total }}<span>/100</span></div>
+  <p class="muted">{{ r.word_count }} words &middot;
+     {{ r.email or "no email found" }} &middot; {{ r.phone or "no phone found" }}</p>
+</section>
+
+<section class="card">
+  <h2>Score breakdown</h2>
+  {% for name, value in r.score.items() %}
+    {% set maxv = name.split('(')[1].replace(')', '')|int %}
+    <div class="row"><span>{{ name }}</span><span>{{ value }}</span></div>
+    <div class="bar"><div style="width: {{ (value / maxv * 100)|round }}%"></div></div>
+  {% endfor %}
+</section>
+
+<section class="card">
+  <h2>Skills found</h2>
+  {% if r.skills %}
+    {% for category, items in r.skills.items() %}
+      <p><strong>{{ category }}:</strong>
+        {% for s in items %}<span class="tag">{{ s }}</span>{% endfor %}</p>
+    {% endfor %}
+  {% else %}
+    <p class="muted">No known skills detected. Add a clear Skills section.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Sections</h2>
+  <p>{% for s in r.sections_found %}<span class="tag good">&#10003; {{ s }}</span>{% endfor %}
+     {% for s in r.sections_missing %}<span class="tag bad">&#10007; {{ s }}</span>{% endfor %}</p>
+</section>
+
+<section class="card">
+  <h2>Tips to improve</h2>
+  <ul>{% for t in r.tips %}<li>{{ t }}</li>{% endfor %}</ul>
+</section>
+
+{% if job_given %}
+<section class="card">
+  <h2>Job match</h2>
+  {% if match %}
+    <div class="big-score small">{{ match.percent }}%</div>
+    <p><strong>You have:</strong>
+      {% for s in match.matched %}<span class="tag good">{{ s }}</span>{% else %}<span class="muted">none</span>{% endfor %}</p>
+    <p><strong>Missing:</strong>
+      {% for s in match.missing %}<span class="tag bad">{{ s }}</span>{% else %}<span class="muted">nothing, great!</span>{% endfor %}</p>
+  {% else %}
+    <p class="muted">No known skills were found in that job description.</p>
+  {% endif %}
+</section>
+{% endif %}
+
+<section class="card">
+  <h2>Careers that fit you</h2>
+  {% for c in careers %}
+    <div class="row"><strong>{{ c.role }}</strong><span>{{ c.percent }}% match</span></div>
+    <div class="bar"><div style="width: {{ c.percent }}%"></div></div>
+    {% if c.missing %}<p class="muted">To grow: {{ c.missing|join(", ") }}</p>{% endif %}
+  {% endfor %}
+</section>
+
+<p class="center"><a class="button" href="/">Analyze another resume</a></p>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Analyze your resume</h1>
+  <p class="muted">Upload a PDF, DOCX or TXT file. Optionally paste a job description to see how well you match.</p>
+
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+  <form action="/analyze" method="POST" enctype="multipart/form-data">
+    <label>Resume file</label>
+    <input type="file" name="resume" accept=".pdf,.docx,.txt" required>
+
+    <label>Job description (optional)</label>
+    <textarea name="job_description" rows="6" placeholder="Paste the job description here..."></textarea>
+
+    <button type="submit">Analyze</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Career Assistant</h1>
+  <p class="muted">Try: "data analyst roadmap", "interview tips", "project ideas".</p>
+
+  <form method="POST">
+    <input type="text" name="question" value="{{ question }}" placeholder="Ask a career question..." required>
+    <button type="submit">Ask</button>
+  </form>
+
+  {% if reply %}
+    <div class="reply"><strong>You:</strong> {{ question }}<br><br>
+    <strong>Assistant:</strong> {{ reply }}</div>
+  {% endif %}
+</section>
+{% endblock %}

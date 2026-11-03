@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CareerBuddy - Resume Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a class="brand" href="/">CareerBuddy</a>
+    <div>
+      <a href="/">Analyze Resume</a>
+      <a href="/assistant">Career Assistant</a>
+    </div>
+  </nav>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Beginner project built with Python &amp; Flask</footer>
+</body>
+</html>
